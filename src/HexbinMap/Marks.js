@@ -5,15 +5,16 @@ import { hexbin as d3Hexbin } from 'd3-hexbin';
 export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
     const [tooltip, setTooltip] = useState({ display: 'none', x: 0, y: 0, content: [] });
 
-    const hrvValues = data.map(d => d[yValueField]).filter(h => h != null && h !== '' && !isNaN(h));
+    // Generate color scale based on current selected yValueField
+    const fieldValues = data.map(d => d[yValueField]).filter(h => h != null && h !== '' && !isNaN(h) && h > 0);
     const colorScale = d3.scaleLinear()
-        .domain([d3.min(hrvValues), d3.mean(hrvValues), d3.max(hrvValues)]) 
+        .domain([d3.min(fieldValues) || 0, d3.mean(fieldValues) || 0, d3.max(fieldValues) || 0])
         .range(['yellow', 'orange', 'red']); 
 
     return (
         <g className="marks">
             {bins.map((bin, i) => {
-               
+                // Filter data points within the hexbin area
                 const binData = data.filter(d => {
                     const coords = projection(d.coords);
                     return (
@@ -22,30 +23,36 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
                     );
                 });
 
-        
-                const validDataPoints = binData.filter(d => d[yValueField] != null && d[yValueField] !== '' && !isNaN(d[yValueField]));
-                
-                const meanValue = validDataPoints.length > 0 
-                    ? validDataPoints.reduce((sum, d) => sum + d[yValueField], 0) / validDataPoints.length 
-                    : 0;
+                // Filter valid data points for mean calculation; exclude 0
+                const validDataPoints = binData.filter(d => 
+                    d[yValueField] != null &&         // Ensure field isn't null
+                    d[yValueField] !== '' && 
+                    !isNaN(d[yValueField]) &&          // Ensure it is a number
+                    d[yValueField] > 0                 // Ensure the value is greater than 0
+                );
 
-                if (meanValue === 0) {
+                const meanValue = validDataPoints.length > 0 
+                    ? validDataPoints.reduce((sum, d) => sum + d[yValueField], 0) / validDataPoints.length // Calculate mean
+                    : 0; // Default to 0 if no valid points
+
+                // Skip rendering if no valid data
+                if (validDataPoints.length === 0) {
                     return null;
                 }
 
-                const fillColor = colorScale(meanValue);
+                const fillColor = colorScale(meanValue); // Determine color based on mean
 
                 return (
                     <g key={i}
                        onMouseEnter={(e) => {
                            setTooltip({
                                display: 'block',
-                               x: 700, 
-                               y: 505,
+                               x: e.clientX,
+                               y: e.clientY,
                                content: [
-                                   `Number of Data Points: ${validDataPoints.length}`,
-                                   `Mean Value: ${meanValue.toFixed(2)}`
-                               ], 
+                                   `Number of Data Points: ${validDataPoints.length}`,  // Display number of valid points
+                                   `Mean Value: ${meanValue.toFixed(2)}`   // Display the calculated mean
+                               ],
                            });
                        }}
                        onMouseLeave={() => {
