@@ -1,0 +1,185 @@
+
+.marks .graticules,
+.tick line {
+  fill: none;
+  stroke: #ececec;
+}
+
+circle {
+  fill: #056da5; 
+  stroke: #ccc;
+  stroke-width: 0.2px;
+  opacity: 1;
+  transition: fill 0.3s; 
+}
+
+.tick text {
+  fill: #635f5d;
+  font-size: 0.7em; 
+}
+
+.axis-label {  
+  font-size: 0.9em; 
+  font-weight: bold; 
+  fill: #635f5d; 
+}
+
+.title {
+  font-size: 20px; 
+  font-weight: bold; 
+  font-family: Helvetica;
+  fill: rgb(67, 67, 67); 
+  text-anchor: middle; 
+}
+.loading {
+  font-size: 20px; 
+  fill: black; 
+}
+
+
+.marks path {
+  stroke: black; 
+  stroke-width: 1; 
+  opacity: 1; 
+}
+
+.marks path {
+  stroke: white; 
+  stroke-width: 0.2px; 
+  opacity: 1; 
+}
+
+
+.marks {
+  pointer-events: auto; 
+  opacity: 1; 
+}
+
+svg {
+  display: block; 
+  width: 100%; 
+  height: auto; 
+  max-width: 900px; 
+  border: 1px solid rgb(255, 255, 255); 
+}
+
+
+.markscity circle {
+  fill: #000000; 
+  opacity: 1;
+  stroke: rgb(255, 255, 255);
+}
+
+.braunschweig {
+  font-size: 10px; 
+  font-weight: bold; 
+  fill: #0d0d0d; 
+}
+
+
+.legend-tick {
+  font-size: 8px; 
+  font-weight: bold;
+  background-color: #d9dfe0; 
+  fill: black; 
+}
+
+
+.legend-title {
+  font-size: 10px; 
+  font-weight: bold; 
+  fill: rgb(116, 6, 6); 
+}
+
+
+#map-image {
+  width: 100%; 
+  height: auto; 
+  opacity: 1;
+  filter: grayscale(50%); 
+  position: absolute;
+}
+
+
+.filters h3 {
+  margin-bottom: 15px; 
+  font-size: 18px; 
+}
+
+
+.filters {
+  margin-right: 12px; 
+  margin-left: 0px;
+  margin-bottom: 0px; 
+  background: rgb(220, 220, 220); 
+  padding: 12px; 
+  border-radius: 2px; 
+}
+
+
+.filters label {
+  font-size: 12px; 
+  font-weight: bold; 
+  display: block; 
+  margin-bottom: 10px; 
+}
+
+
+.select-dropdown {
+  width: 100%; 
+  padding: 10px; 
+  margin-top: 5px; 
+  border-radius: 4px; 
+  border: 1px solid #bdbbbb; 
+  background-color: #ffffff; 
+  font-size: 11px; 
+}
+
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 20px; 
+  }
+
+  .filters h3 {
+    font-size: 18px; 
+  }
+
+  .filters label, .select-dropdown {
+    font-size: 12px; 
+  }
+
+  .loading {
+    font-size: 20px; 
+  }
+
+  .braunschweig {
+    font-size: 10px; 
+  }
+
+  .legend-tick, .legend-title {
+    font-size: 10px;
+  }
+}
+
+
+
+.instructions {
+  width: 600px; 
+  font-size: 16px;
+  position: absolute; 
+  right:30px; 
+  top: 15%; 
+    margin: 5px 100px; 
+    text-align: justify;
+    line-height: 30px; 
+
+}
+
+.instructions ul {
+  padding-left: 20px; 
+}
+
+.instructions li {
+  margin-bottom: 5px;
+}
