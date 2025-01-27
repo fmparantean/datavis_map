@@ -22,7 +22,6 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
                         coords[1] >= bin.y - hexbinSize && coords[1] <= bin.y + hexbinSize
                     );
                 });
-
          
                 const validDataPoints = binData.filter(d => 
                     d[yValueField] != null &&        
@@ -46,8 +45,8 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
                        onMouseEnter={(e) => {
                            setTooltip({
                                display: 'block',
-                               x: e.clientX,
-                               y: e.clientY,
+                               x: 720,
+                               y: 485,
                                content: [
                                    `Number of Data Points: ${validDataPoints.length}`,  
                                    `Mean Value: ${meanValue.toFixed(2)}`   

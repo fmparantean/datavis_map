@@ -53,10 +53,14 @@ const App = () => {
         return participantFilter && genderFilter && modeButtonFilter;
     });
 
-    const hrvValues = filteredData.map(d => d[yValueField]).filter(h => h != null);
+
+
+
+const fieldValues = data.map(d => d[yValueField]).filter(h => h != null && h !== '' && !isNaN(h));
     const colorScale = scaleLinear()
-        .domain([d3.min(hrvValues) || 0, d3.mean(hrvValues) || 0, d3.max(hrvValues) || 0])
+        .domain([d3.min(fieldValues) || 0, d3.mean(fieldValues) || 0, d3.max(fieldValues) || 0])
         .range(['yellow', 'orange', 'red']);
+        
 
     return (
         <div style={{ display: 'flex' }}>
