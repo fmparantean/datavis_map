@@ -27,7 +27,7 @@ export const Hexbinmap = ({ data, worldAtlas, yValueField, hexbinSize }) => {
     return (
         <>
             <svg width={svgWidth} height={svgHeight}>
-                <Marks bins={bins} data={projectedData} yValueField={yValueField} hexbinSize={hexbinSize} /> 
+                <Marks bins={bins} data={projectedData} yValueField={yValueField} hexbinSize={hexbinSize} projection={projection} /> 
                 <Markscity data={projectedData} projection={projection} /> 
             </svg>
         </>

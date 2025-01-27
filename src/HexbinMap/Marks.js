@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import * as d3 from 'd3'; 
 import { hexbin as d3Hexbin } from 'd3-hexbin'; 
 
-export const Marks = ({ bins, data, yValueField, hexbinSize }) => {
+export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
     const [tooltip, setTooltip] = useState({ display: 'none', x: 0, y: 0, content: [] });
 
-    const hrvValues = data.map(d => d[yValueField]).filter(h => h != null && h !== 0);
+    const hrvValues = data.map(d => d[yValueField]).filter(h => h != null && h !== '' && !isNaN(h));
     const colorScale = d3.scaleLinear()
         .domain([d3.min(hrvValues), d3.mean(hrvValues), d3.max(hrvValues)]) 
         .range(['yellow', 'orange', 'red']); 
@@ -13,19 +13,23 @@ export const Marks = ({ bins, data, yValueField, hexbinSize }) => {
     return (
         <g className="marks">
             {bins.map((bin, i) => {
-                const binData = data.filter(d => 
-                    d.x >= bin.x - 15 && d.x <= bin.x + 15 &&
-                    d.y >= bin.y - 15 && d.y <= bin.y + 15
-                );
+               
+                const binData = data.filter(d => {
+                    const coords = projection(d.coords);
+                    return (
+                        coords[0] >= bin.x - hexbinSize && coords[0] <= bin.x + hexbinSize &&
+                        coords[1] >= bin.y - hexbinSize && coords[1] <= bin.y + hexbinSize
+                    );
+                });
 
-                const validDataPoints = binData.filter(d => d[yValueField] != null && d[yValueField] !== 0);
+        
+                const validDataPoints = binData.filter(d => d[yValueField] != null && d[yValueField] !== '' && !isNaN(d[yValueField]));
                 
                 const meanValue = validDataPoints.length > 0 
                     ? validDataPoints.reduce((sum, d) => sum + d[yValueField], 0) / validDataPoints.length 
                     : 0;
 
-            
-                if (meanValue === 0 || validDataPoints.length === 0) {
+                if (meanValue === 0) {
                     return null;
                 }
 
@@ -36,10 +40,10 @@ export const Marks = ({ bins, data, yValueField, hexbinSize }) => {
                        onMouseEnter={(e) => {
                            setTooltip({
                                display: 'block',
-                               x: 700,
+                               x: 700, 
                                y: 505,
                                content: [
-                                   `Numbers of Data Points: ${validDataPoints.length}`,
+                                   `Number of Data Points: ${validDataPoints.length}`,
                                    `Mean Value: ${meanValue.toFixed(2)}`
                                ], 
                            });
@@ -57,8 +61,7 @@ export const Marks = ({ bins, data, yValueField, hexbinSize }) => {
                     </g>
                 );
             })}
-            
-        
+
             <g transform={`translate(${tooltip.x}, ${tooltip.y})`} style={{ display: tooltip.display, pointerEvents: 'none' }}>
                 <text fill="black" fontSize="12" fontWeight='bold' textAnchor="left" stroke='white' strokeWidth={0.2}>
                     {tooltip.content.map((line, index) => (

@@ -29,7 +29,7 @@ export const DateHistogram = ({
         .padding(0.1);
 
     const yValue = d => d[yValueField];
-    const filteredData = data.filter(d => d[yValueField] != null && d[yValueField] !== 0);
+    const filteredData = data.filter(d => d[yValueField] != null && d[yValueField] !== '');
     const yScale = scaleLinear()
         .domain([min(filteredData, yValue), max(filteredData, yValue)])
         .range([innerHeight, 0])
