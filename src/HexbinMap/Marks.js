@@ -5,7 +5,7 @@ import { hexbin as d3Hexbin } from 'd3-hexbin';
 export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
     const [tooltip, setTooltip] = useState({ display: 'none', x: 0, y: 0, content: [] });
 
-    // Generate color scale based on current selected yValueField
+    
     const fieldValues = data.map(d => d[yValueField]).filter(h => h != null && h !== '' && !isNaN(h) && h > 0);
     const colorScale = d3.scaleLinear()
         .domain([d3.min(fieldValues) || 0, d3.mean(fieldValues) || 0, d3.max(fieldValues) || 0])
@@ -14,7 +14,7 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
     return (
         <g className="marks">
             {bins.map((bin, i) => {
-                // Filter data points within the hexbin area
+           
                 const binData = data.filter(d => {
                     const coords = projection(d.coords);
                     return (
@@ -23,24 +23,23 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
                     );
                 });
 
-                // Filter valid data points for mean calculation; exclude 0
+         
                 const validDataPoints = binData.filter(d => 
-                    d[yValueField] != null &&         // Ensure field isn't null
+                    d[yValueField] != null &&        
                     d[yValueField] !== '' && 
-                    !isNaN(d[yValueField]) &&          // Ensure it is a number
-                    d[yValueField] > 0                 // Ensure the value is greater than 0
+                    !isNaN(d[yValueField]) &&          
+                    d[yValueField] > 0                 
                 );
 
                 const meanValue = validDataPoints.length > 0 
-                    ? validDataPoints.reduce((sum, d) => sum + d[yValueField], 0) / validDataPoints.length // Calculate mean
-                    : 0; // Default to 0 if no valid points
+                    ? validDataPoints.reduce((sum, d) => sum + d[yValueField], 0) / validDataPoints.length 
+                    : 0; 
 
-                // Skip rendering if no valid data
                 if (validDataPoints.length === 0) {
                     return null;
                 }
 
-                const fillColor = colorScale(meanValue); // Determine color based on mean
+                const fillColor = colorScale(meanValue); 
 
                 return (
                     <g key={i}
@@ -50,8 +49,8 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
                                x: e.clientX,
                                y: e.clientY,
                                content: [
-                                   `Number of Data Points: ${validDataPoints.length}`,  // Display number of valid points
-                                   `Mean Value: ${meanValue.toFixed(2)}`   // Display the calculated mean
+                                   `Number of Data Points: ${validDataPoints.length}`,  
+                                   `Mean Value: ${meanValue.toFixed(2)}`   
                                ],
                            });
                        }}

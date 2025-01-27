@@ -30,7 +30,6 @@ export const Hexbinmap = ({ data, yValueField, hexbinSize }) => {
 
         setProjectedData(newData);
 
-        // Filter valid data points before generating bins
         const validHexbinData = newData.filter(d => 
             d[yValueField] != null && 
             d[yValueField] !== '' && 
