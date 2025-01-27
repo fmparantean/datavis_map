@@ -54,9 +54,7 @@ const App = () => {
     });
 
 
-
-
-const fieldValues = data.map(d => d[yValueField]).filter(h => h != null && h !== '' && !isNaN(h));
+    const fieldValues = data.map(d => d[yValueField]).filter(h => h != null && h !== '' && !isNaN(h));
     const colorScale = scaleLinear()
         .domain([d3.min(fieldValues) || 0, d3.mean(fieldValues) || 0, d3.max(fieldValues) || 0])
         .range(['yellow', 'orange', 'red']);
