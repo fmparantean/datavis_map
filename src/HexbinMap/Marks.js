@@ -5,33 +5,33 @@ import { hexbin as d3Hexbin } from 'd3-hexbin';
 export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
     const [tooltip, setTooltip] = useState({ display: 'none', x: 0, y: 0, content: [] });
 
-    // Fixed ranges for each yValueField
+    
     const yValueRanges = {
         HR_mad_filtered: { 
-            thresholds: [-3, -0.5, 0.3, 1.1, 2.6, 5], // Adjusted thresholds for HR_mad
+            thresholds: [-3, -0.5, 0.3, 1.1, 2.6, 5], 
             colors: ['#FFFF00', '#FFDA00', '#FF8C00', '#FF4500', '#FF0000']
         },
         HRV: { 
-            thresholds: [1, 10, 20, 40, 70, 190], // Ranges for HRV
+            thresholds: [1, 10, 20, 40, 70, 190], 
             colors: ['#FFFF00', '#FFDA00', '#FF8C00', '#FF4500', '#FF0000']
         },
         stress_xs: { 
-            thresholds: [1, 2, 4, 6, 8, 10], // Ranges for Stress
+            thresholds: [1, 2, 4, 6, 8, 10], 
             colors: ['#FFFF00', '#FFDA00', '#FF8C00', '#FF4500', '#FF0000']
         },
         satisfaction_journey_xs: { 
-            thresholds: [0, 1, 5, 7, 8, 10], // Ranges for Satisfaction
+            thresholds: [0, 1, 5, 7, 8, 10],
             colors: ['#FFFF00', '#FFDA00', '#FF8C00', '#FF4500', '#FF0000']
         },
     };
 
-    // Retrieve thresholds and colors based on the selected yValueField
+    
     const { thresholds, colors } = yValueRanges[yValueField];
 
-    // Create a color scale with thresholds
+    
     const colorScale = d3.scaleThreshold()
-        .domain(thresholds.slice(1)) // Exclude the first lower bound for color mapping
-        .range(colors); // Define your color range
+        .domain(thresholds.slice(1)) 
+        .range(colors); 
 
     return (
         <g className="marks">
@@ -46,12 +46,12 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
                     );
                 });
 
-                // Filter valid data points based on selected field rules
+                
                 const validDataPoints = binData.filter(d => 
                     d[yValueField] != null &&        
                     d[yValueField] !== '' && 
-                    !isNaN(d[yValueField]) && // Ensure it's a valid number
-                    (yValueField === 'HR_mad_filtered' || d[yValueField] > 0) // Allow negatives for HR_mad_filtered only
+                    !isNaN(d[yValueField]) && 
+                    (yValueField === 'HR_mad_filtered' || d[yValueField] > 0) 
                 );
 
                 const meanValue = validDataPoints.length > 0 
@@ -59,10 +59,10 @@ export const Marks = ({ bins, data, yValueField, hexbinSize, projection }) => {
                     : 0; 
 
                 if (validDataPoints.length === 0) {
-                    return null; // Skip rendering if no valid data points
+                    return null; 
                 }
 
-                const fillColor = colorScale(meanValue); // Determine fill color using the scale
+                const fillColor = colorScale(meanValue); 
 
                 return (
                     <g key={i}

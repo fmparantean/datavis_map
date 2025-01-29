@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 
 const ColorLegend = ({ yValueField }) => {
     useEffect(() => {
-        // Define the fixed ranges and colors for the legend inside useEffect
+        
         const legendData = {
             HR_mad_filtered: [
                 { range: '(-3) - (-0.5)', color: '#FFFF00' },
@@ -39,35 +39,33 @@ const ColorLegend = ({ yValueField }) => {
             .attr("width", 90)
             .attr("height", 200);
 
-        const legendHeight = 20; // Height of each block
+        const legendHeight = 20; 
 
-        svg.selectAll("*").remove(); // Clear previous contents
+        svg.selectAll("*").remove(); 
 
-        // Render blocks and corresponding text for each range
+      
         legendData[yValueField].forEach((entry, index) => {
-            const rectY = index * legendHeight; // Positioning based on index
+            const rectY = index * legendHeight; 
 
-            // Draw rectangles
+           
             svg.append("rect")
                 .attr("x", 0)
                 .attr("y", rectY)
                 .attr("width", 15)
                 .attr("height", legendHeight)
-                .style("fill", entry.color); // Set color for each range
+                .style("fill", entry.color); 
 
-            // Add text labels next to the blocks
             svg.append("text")
-                .attr("x", 20) // Adjacent to the blocks
-                .attr("y", rectY + legendHeight / 2 + 5) // Center the text vertically
-                .attr("font-size", "9px") // Adjust font size
-                .attr("font-weight", "bold") // Make the font thicker
+                .attr("x", 20) 
+                .attr("y", rectY + legendHeight / 2 + 5) 
+                .attr("font-size", "9px") 
+                .attr("font-weight", "bold") 
                 .attr("text-anchor", "start")
-                .text(entry.range); // Display the range
+                .text(entry.range); 
         });
 
-    }, [yValueField]); // Recalculate when the yValueField changes
-
-    return <svg id="color-legend" className="color-legend" />; // Add className here
+    }, [yValueField]); 
+    return <svg id="color-legend" className="color-legend" />; 
 };
 
 export default ColorLegend;
