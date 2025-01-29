@@ -13,6 +13,8 @@ import { Marks } from './Marks';
 
 const margin = { top: 20, right: 10, bottom: 50, left: 90 };
 
+
+
 export const DateHistogram = ({
     data,
     width,
@@ -29,7 +31,7 @@ export const DateHistogram = ({
         .padding(0.1);
 
     const yValue = d => d[yValueField];
-    const filteredData = data.filter(d => d[yValueField] != null && d[yValueField] !== '');
+    const filteredData = data.filter(d => d[yValueField] != null && d[yValueField] !== ''&& d[yValueField]!=='0');
     const yScale = scaleLinear()
         .domain([min(filteredData, yValue), max(filteredData, yValue)])
         .range([innerHeight, 0])
@@ -63,7 +65,7 @@ export const DateHistogram = ({
             .attr('fill', 'rgba(30, 64, 186, 0.46)') 
            
         if (!initialBrushSet.current) {
-            const initialSelection = [0, innerWidth / 2];
+            const initialSelection = [0, innerWidth];
             brush.move(select(brushRef.current), initialSelection);
 
             const initialSelectedDays = xScale.domain().filter(day => {

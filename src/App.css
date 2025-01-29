@@ -38,14 +38,14 @@ circle {
 
 
 .marks path {
-  stroke: black; 
+  stroke: rgb(0, 0, 0); 
   stroke-width: 1; 
   opacity: 1; 
 }
 
 .marks path {
-  stroke: white; 
-  stroke-width: 0.2px; 
+  stroke: rgb(0, 0, 0); 
+  stroke-width: 0.3px; 
   opacity: 1; 
 }
 
