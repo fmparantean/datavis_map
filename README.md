@@ -14,6 +14,7 @@ Deployment link: https://fmparantean.github.io/datavis_map/
 
 
 To run the code in Visual Studio Code, delete the first line in "package.json": 
+
 "homepage": "https://fmparantean.github.io/datavis_map", 
 
 and type "npm start" in the terminal
